@@ -1,9 +1,10 @@
 const scraperjs = require('scraperjs')
+const baseUrl = 'https://samehadaku.email';
 
 class MainController {
   home({ params: { page } }, req) {
     page = typeof page === 'undefined' ? '' : page === '1' ? '' : `page/${page.toString()}/`
-    scraperjs.StaticScraper.create(`https://samehadaku.vip/${page}`).scrape(
+    scraperjs.StaticScraper.create(`${baseUrl}/${page}`).scrape(
       async ($) => {
         const obj = {}
         obj.season = $('.animposx')
@@ -15,7 +16,7 @@ class MainController {
               linkId: $(this)
                 .find('a')
                 .attr('href')
-                .replace('https://samehadaku.vip/anime/', '')
+                .replace(`${baseUrl}/anime/`, '')
                 .replace('/', ''),
               image: $(this)
                 .find('a .content-thumb img')
@@ -77,7 +78,7 @@ class MainController {
         ? ''
         : `page/${page.toString()}/`
     scraperjs.StaticScraper.create(
-      `https://samehadaku.vip/blog/${page}`,
+      `${baseUrl}/blog/${page}`,
     ).scrape(($) => {
       const blog = {}
       blog.blog = $('.box-blog')
@@ -90,7 +91,7 @@ class MainController {
             linkId: $(this)
               .find('.img a')
               .attr('href')
-              .replace('https://samehadaku.vip/blog/', '')
+              .replace(`${baseUrl}/blog/`, '')
               .replace('/', '')
               .trim(),
             image: $(this).find('.img a img').attr('src'),
@@ -103,7 +104,7 @@ class MainController {
   }
 
   readblog({ params: { id } }, req) {
-    const page = `https://samehadaku.vip/blog/${id}`
+    const page = `${baseUrl}/blog/${id}`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -156,7 +157,7 @@ class MainController {
   }
 
   tag({ params: { tag } }, req) {
-    const page = `https://samehadaku.vip/tag/${tag}`
+    const page = `${baseUrl}/tag/${tag}`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -181,7 +182,7 @@ class MainController {
             linkId: $(this)
               .find('.animepost .animposx a')
               .attr('href')
-              .replace('https://samehadaku.vip/anime/', '')
+              .replace(`${baseUrl}/anime/`, '')
               .replace('/', ''),
           }
         })
@@ -192,7 +193,7 @@ class MainController {
   }
 
   blogcategory({ params: { category } }, req) {
-    const page = `https://samehadaku.vip/blog-category/${category}`
+    const page = `${baseUrl}/blog-category/${category}`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -209,7 +210,7 @@ class MainController {
             linkId: $(this)
               .find('.img a')
               .attr('href')
-              .replace('https://samehadaku.vip/blog/', '')
+              .replace(`${baseUrl}/blog/`, '')
               .replace('/', '')
               .trim(),
             image: $(this).find('.img a img').attr('src'),
@@ -222,7 +223,7 @@ class MainController {
   }
 
   blogCategoryByPage({ params: { category, page } }, req) {
-    const pager = `https://samehadaku.vip/blog-category/${category}/page/${page}`
+    const pager = `${baseUrl}/blog-category/${category}/page/${page}`
 
     scraperjs.StaticScraper.create(pager).scrape(($) => {
       const data = {}
@@ -239,7 +240,7 @@ class MainController {
             linkId: $(this)
               .find('.img a')
               .attr('href')
-              .replace('https://samehadaku.vip/blog/', '')
+              .replace(`${baseUrl}/blog/`, '')
               .replace('/', '')
               .trim(),
             image: $(this).find('.img a img').attr('src'),
@@ -252,14 +253,14 @@ class MainController {
   }
 
   daftarGenre(_, req) {
-    scraperjs.StaticScraper.create('https://samehadaku.vip/').scrape(($) => {
+    scraperjs.StaticScraper.create(`${baseUrl}`).scrape(($) => {
       const obj = {}
       obj.daftar_genere = $('.genre > li').map(function () {
         const span = $(this).find('span').text()
         return {
           nama_genre: $(this).text().replace(span, ''),
           link: $(this).find('a').attr('href'),
-          linkid: $(this).find('a').attr('href').replace('https://samehadaku.vip/genre/', ''),
+          linkid: $(this).find('a').attr('href').replace(`${baseUrl}/genre/`, ''),
           total: span,
         }
       }).get()
@@ -268,7 +269,7 @@ class MainController {
   }
 
   anime({ params: { id } }, req) {
-    const page = `https://samehadaku.vip/anime/${id}/`
+    const page = `${baseUrl}/anime/${id}/`
     scraperjs.StaticScraper.create(page).scrape(async ($) => {
       const data = {}
 
@@ -550,7 +551,7 @@ class MainController {
             id: $(this)
               .find('.epsright .eps a')
               .attr('href')
-              .replace('https://samehadaku.vip/', ''),
+              .replace(`${baseUrl}`, ''),
           }
         })
         .get()
@@ -586,7 +587,7 @@ class MainController {
         )
       })
 
-      await scraperjs.StaticScraper.create('https://samehadaku.vip/').scrape(
+      await scraperjs.StaticScraper.create(`${baseUrl}`).scrape(
         async ($) => {
           data.latest = await Promise.all(
             $('.post-show ul li')
@@ -630,7 +631,7 @@ class MainController {
   }
 
   async readanime({ params: { link } }, req) {
-    const page = `https://samehadaku.vip/${link}/`
+    const page = `${baseUrl}/${link}/`
 
     scraperjs.StaticScraper.create(page).scrape(async ($) => {
       const data = {}
@@ -721,7 +722,7 @@ class MainController {
   }
 
   search({ params: { title } }, req) {
-    const page = `https://samehadaku.vip/?s=${title}`
+    const page = `${baseUrl}/?s=${title}`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -753,7 +754,7 @@ class MainController {
             linkId: $(this)
               .find('.animepost .animposx a')
               .attr('href')
-              .replace('https://samehadaku.vip/anime/', '')
+              .replace(`${baseUrl}/anime/`, '')
               .replace('/', ''),
           }
         })
@@ -764,7 +765,7 @@ class MainController {
   }
 
   searchByPage({ params: { title, page } }, req) {
-    const pager = `https://samehadaku.vip/page/${page}/?s=${title}`
+    const pager = `${baseUrl}/page/${page}/?s=${title}`
 
     scraperjs.StaticScraper.create(pager).scrape(($) => {
       const data = {}
@@ -796,7 +797,7 @@ class MainController {
             linkId: $(this)
               .find('.animepost .animposx a')
               .attr('href')
-              .replace('https://samehadaku.vip/anime/', '')
+              .replace(`${baseUrl}/anime/`, '')
               .replace('/', ''),
           }
         })
@@ -807,7 +808,7 @@ class MainController {
   }
 
   season(_, req) {
-    const page = 'https://samehadaku.vip/season/spring-2020/'
+    const page = `${baseUrl}/season/spring-2020/`
 
     scraperjs.StaticScraper.create(page)
       .scrape(($) => {
@@ -850,7 +851,7 @@ class MainController {
               linkId: $(this)
                 .find('.animepost .animposx a')
                 .attr('href')
-                .replace('https://samehadaku.vip/anime/', '')
+                .replace(`${baseUrl}/anime/`, '')
                 .replace('/', ''),
             }
           })
@@ -859,7 +860,7 @@ class MainController {
         return data
       })
       .then((data) => {
-        const page = 'https://samehadaku.vip/season/spring-2020/page/2/'
+        const page = `${baseUrl}/season/spring-2020/page/2/`
 
         scraperjs.StaticScraper.create(page).scrape(($) => {
           const results = $('.relat .animpost')
@@ -893,7 +894,7 @@ class MainController {
                 linkId: $(this)
                   .find('.animepost .animposx a')
                   .attr('href')
-                  .replace('https://samehadaku.vip/anime/', '')
+                  .replace(`${baseUrl}/anime/`, '')
                   .replace('/', ''),
               }
             })
@@ -907,7 +908,7 @@ class MainController {
   }
 
   date(_, req) {
-    const page = 'https://samehadaku.vip/jadwal-rilis/'
+    const page = `${baseUrl}/jadwal-rilis/`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -945,7 +946,7 @@ class MainController {
                   linkId: $(this)
                     .find('.animposx a')
                     .attr('href')
-                    .replace('https://samehadaku.vip/anime/', '')
+                    .replace(`${baseUrl}/anime/`, '')
                     .replace('/', ''),
                 }
               })
@@ -959,7 +960,7 @@ class MainController {
   }
 
   listWithoutPage(_, req) {
-    const page = 'https://samehadaku.vip/daftar-anime/'
+    const page = `${baseUrl}/daftar-anime/`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -971,8 +972,7 @@ class MainController {
           return {
             title: $(this).find('.animepost .stooltip .title h4').text(),
             score: $(this).find('.animepost .stooltip .skor').text().trim(),
-            view: $(this)
-              .find('.animepost .stooltip .metadata span:last-of-type')
+            view: $(this).find('.animepost .stooltip .metadata span:last-of-type')
               .text()
               .replace(' Dilihat', ''),
             image: $(this)
@@ -994,7 +994,7 @@ class MainController {
             linkId: $(this)
               .find('.animepost .animposx a')
               .attr('href')
-              .replace('https://samehadaku.vip/anime/', '')
+              .replace(`${baseUrl}/anime/`, '')
               .replace('/', ''),
           }
         })
@@ -1005,7 +1005,7 @@ class MainController {
   }
 
   listWithPage({ params: { page } }, req) {
-    const inPage = `https://samehadaku.vip/daftar-anime/page/${page}/`
+    const inPage = `${baseUrl}/daftar-anime/page/${page}/`
 
     scraperjs.StaticScraper.create(inPage).scrape(($) => {
       const data = {}
@@ -1040,7 +1040,7 @@ class MainController {
             linkId: $(this)
               .find('.animepost .animposx a')
               .attr('href')
-              .replace('https://samehadaku.vip/anime/', '')
+              .replace(`${baseUrl}/anime/`, '')
               .replace('/', ''),
           }
         })
@@ -1051,7 +1051,7 @@ class MainController {
   }
 
   searchByGenre({ params: { genre } }, req) {
-    const page = `https://samehadaku.vip/genre/${genre}`
+    const page = `${baseUrl}/genre/${genre}`
 
     scraperjs.StaticScraper.create(page).scrape(($) => {
       const data = {}
@@ -1086,7 +1086,7 @@ class MainController {
             linkId: $(this)
               .find('.animepost .animposx a')
               .attr('href')
-              .replace('https://samehadaku.vip/anime/', '')
+              .replace(`${baseUrl}/anime/`, '')
               .replace('/', ''),
           }
         })
