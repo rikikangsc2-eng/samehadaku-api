@@ -1,12 +1,21 @@
 {
-  "name": "first-app",
-  "version": "0.0.0",
-  "private": true,
+  "name": "express-vercel",
+  "version": "0.6.0",
+  "description": "express vercel boilerplate",
+  "main": "app.js",
+  "author": "Kizito Akhilome <kizito@akhilo.me>",
+  "license": "MIT",
   "scripts": {
-    "start": "node bin/www",
-    "nodemon": "nodemon",
-    "lint": "eslint"
+    "start": "vercel dev",
+    "test": "jest -i"
   },
+  "engines": {
+    "node": "20.x"
+  },
+  "keywords": [
+    "vercel",
+    "serverless"
+  ],
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
